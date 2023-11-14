@@ -6,17 +6,29 @@ class Bottles:
         return '\n'.join(self.verse(n) for n in range(upper, lower - 1, -1))
 
     def verse(self, number):
-        bottle_number = BottleNumber(number)
-        next_bottle_number = BottleNumber(bottle_number.successor())
+        bottle_number = BottleNumber.given(number)
 
         return (
             f'{str(bottle_number).capitalize()} of beer on the wall, '
             f'{bottle_number} of beer.\n'
             f'{bottle_number.action()}, '
-            f'{next_bottle_number} of beer on the wall.\n'
+            f'{bottle_number.successor()} of beer on the wall.\n'
         )
 
 class BottleNumber:
+    @staticmethod
+    def given(number):
+        match number:
+            case 0:
+                cls = BottleNumber0
+            case 1:
+                cls = BottleNumber1
+            case _:
+                cls = BottleNumber
+
+        return cls(number)
+
+
     def __init__(self, number):
         self.number = number
 
@@ -24,26 +36,33 @@ class BottleNumber:
         return self.quantity() + ' ' + self.container()
 
     def quantity(self):
-        if self.number == 0:
-            return 'no more'
         return str(self.number)
 
     def container(self):
-        if self.number == 1:
-            return 'bottle'
         return 'bottles'
 
     def action(self):
-        if self.number == 0:
-            return 'Go to the store and buy some more'
         return f'Take {self.pronoun()} down and pass it around'
 
     def pronoun(self):
-        if self.number == 1:
-            return 'it'
         return 'one'
 
     def successor(self):
-        if self.number == 0:
-            return 99
-        return self.number - 1
+        return BottleNumber.given(self.number - 1)
+
+class BottleNumber0(BottleNumber):
+    def quantity(self):
+        return 'no more'
+
+    def action(self):
+        return 'Go to the store and buy some more'
+
+    def successor(self):
+        return BottleNumber.given(99)
+
+class BottleNumber1(BottleNumber):
+    def container(self):
+        return 'bottle'
+
+    def pronoun(self):
+        return 'it'
