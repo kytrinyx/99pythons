@@ -6,34 +6,44 @@ class Bottles:
         return '\n'.join(self.verse(n) for n in range(upper, lower - 1, -1))
 
     def verse(self, number):
+        bottle_number = BottleNumber(number)
+        next_bottle_number = BottleNumber(bottle_number.successor())
+
         return (
-            f'{self.quantity(number).capitalize()} {self.container(number)} of beer on the wall, '
-            f'{self.quantity(number)} {self.container(number)} of beer.\n'
-            f'{self.action(number)}, '
-            f'{self.quantity(self.successor(number))} {self.container(self.successor(number))} of beer on the wall.\n'
+            f'{str(bottle_number).capitalize()} of beer on the wall, '
+            f'{bottle_number} of beer.\n'
+            f'{bottle_number.action()}, '
+            f'{next_bottle_number} of beer on the wall.\n'
         )
 
-    def quantity(self, number):
-        if number == 0:
-            return 'no more'
-        return str(number)
+class BottleNumber:
+    def __init__(self, number):
+        self.number = number
 
-    def container(self, number):
-        if number == 1:
+    def __str__(self):
+        return self.quantity() + ' ' + self.container()
+
+    def quantity(self):
+        if self.number == 0:
+            return 'no more'
+        return str(self.number)
+
+    def container(self):
+        if self.number == 1:
             return 'bottle'
         return 'bottles'
 
-    def action(self, number):
-        if number == 0:
+    def action(self):
+        if self.number == 0:
             return 'Go to the store and buy some more'
-        return f'Take {self.pronoun(number)} down and pass it around'
+        return f'Take {self.pronoun()} down and pass it around'
 
-    def pronoun(self, number):
-        if number == 1:
+    def pronoun(self):
+        if self.number == 1:
             return 'it'
         return 'one'
 
-    def successor(self, number):
-        if number == 0:
+    def successor(self):
+        if self.number == 0:
             return 99
-        return number - 1
+        return self.number - 1
