@@ -23,6 +23,8 @@ class BottleNumber:
                 cls = BottleNumber0
             case 1:
                 cls = BottleNumber1
+            case 6:
+                cls = BottleNumber6
             case _:
                 cls = BottleNumber
 
@@ -66,3 +68,10 @@ class BottleNumber1(BottleNumber):
 
     def pronoun(self):
         return 'it'
+
+class BottleNumber6(BottleNumber):
+    def quantity(self):
+        return '1'
+
+    def container(self):
+        return 'six-pack'
