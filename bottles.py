@@ -35,7 +35,7 @@ class BottleNumber:
         self.number = number
 
     def __str__(self):
-        return self.quantity() + ' ' + self.container()
+        return f'{self.quantity()} {self.container()}'
 
     def quantity(self):
         return str(self.number)
