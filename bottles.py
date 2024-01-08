@@ -2,36 +2,14 @@ class Bottles:
     def song(self):
         return self.verses(99, 0)
 
-    def verses(self, upper, lower):
-        return '\n'.join(self.verse(n) for n in range(upper, lower - 1, -1))
+    def verses(self, hi, lo):
+        return '\n'.join(self.verse(n) for n in range(hi, lo - 1, -1))
 
-    def verse(self, number):
-        match number:
-            case 0:
-                return (
-                    'No more bottles of beer on the wall, '
-                    'no more bottles of beer.\n'
-                    'Go to the store and buy some more, '
-                    '99 bottles of beer on the wall.\n'
-                )
-            case 1:
-                return (
-                    '1 bottle of beer on the wall, '
-                    '1 bottle of beer.\n'
-                    'Take it down and pass it around, '
-                    'no more bottles of beer on the wall.\n'
-                )
-            case 2:
-                return (
-                    '2 bottles of beer on the wall, '
-                    '2 bottles of beer.\n'
-                    'Take one down and pass it around, '
-                    '1 bottle of beer on the wall.\n'
-                )
-            case _:
-                return (
-                    f'{number} bottles of beer on the wall, '
-                    f'{number} bottles of beer.\n'
-                    f'Take one down and pass it around, '
-                    f'{number-1} bottles of beer on the wall.\n'
-                )
+    def verse(self, n):
+        return (f'{"No more" if n == 0 else n} bottle{"s" if n != 1 else ""}'
+                f' of beer on the wall, '
+                f'{"no more" if n == 0 else n} bottle{"s" if n != 1 else ""} of beer.\n' +
+                (f'Go to the store and buy some more, ' if n == 0 else f'Take {"one" if n != 1 else "it"} down and pass it around, ') +
+                f'{"99" if n - 1 < 0 else ("no more" if n - 1 == 0 else n - 1)} bottle{"s" if n - 1 != 1 else ""}'
+                f' of beer on the wall.\n')
+
